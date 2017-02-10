@@ -38,6 +38,8 @@ public class PoolScreen extends BaseScreen{
 		Ball ball = new Ball(world);
 		ball.setPosition(table.getFullWidth()/2, table.getFullWidth()/2);
 		balls.add(ball);
+		stage.addActor(ball);
+		ball.enableControl(true);
 
 		createBalls(table.getFullWidth()/2, table.getFullHeight()-table.getFullWidth()/2);
 
@@ -53,6 +55,7 @@ public class PoolScreen extends BaseScreen{
 			for(int i=0;i<l;i++){
 				ball = new Ball(world);
 				balls.add(ball);
+				stage.addActor(ball);
 				ball.setPosition(sx+(i*rad*2), sy);
 			}
 			sx -= rad;
