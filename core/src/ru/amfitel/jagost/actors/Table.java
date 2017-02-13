@@ -8,7 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
  */
 public class Table extends Actor{
 
-	private float border = 0.05f;
+	private float border = 0.5f;
 
 	private float fullHeight = 1;
 	private float fullWidth = 1;
@@ -57,12 +57,12 @@ public class Table extends Actor{
 	}
 
 	public Table(World world) {
-		this(world, 1.27f, 2.54f, 0.116f, 0.1285f); //шар 5,7cm (163gr)
+		this(world, 12.7f, 25.4f, 1.16f, 1.285f); //шар 5,7cm (163gr)
 	}
 
 	public Table(World world, boolean debug) {
-		float w = 1.27f;
-		float h = 2.54f;
+		float w = 12.7f;
+		float h = 25.4f;
 
 		fullHeight = h + border + border;
 		fullWidth = w + border + border;

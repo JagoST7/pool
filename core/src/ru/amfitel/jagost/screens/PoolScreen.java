@@ -34,7 +34,7 @@ public class PoolScreen extends BaseScreen{
 		b2dr = new Box2DDebugRenderer();
 		debugCam = new OrthographicCamera();
 
-		table = new Table(world, true);
+		table = new Table(world);
 		stage.addActor(table);
 
 		balls = new Array<Ball>();

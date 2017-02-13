@@ -25,15 +25,16 @@ public class Ball extends Actor {
 		BodyDef def = new BodyDef();
 		def.type = BodyDef.BodyType.DynamicBody;
 		def.linearDamping = 0.4f;
+//		def.bullet = true;
 		body = world.createBody(def);
 		CircleShape shape = new CircleShape();
 		shape.setRadius(radius);
 
 		FixtureDef fdef = new FixtureDef();
 		fdef.shape = shape;
-		fdef.density = 1;
-		fdef.restitution = 1f;
-		fdef.friction = 0f;
+		fdef.density = 4f;
+		fdef.restitution = 0.3f;
+		fdef.friction = 0.3f;
 
 		body.createFixture(fdef);
 		shape.dispose();
@@ -43,7 +44,7 @@ public class Ball extends Actor {
 	}
 
 	public Ball(World world) {
-		this(world, 0.057f);
+		this(world, 0.57f);
 	}
 
 	public float getRadius(){
@@ -105,7 +106,7 @@ public class Ball extends Actor {
 			@Override
 			public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
 				touchDown = false;
-				body.applyForceToCenter(-x/PoolScreen.scale,-y/PoolScreen.scale,true);
+				body.applyForceToCenter(-x*PoolScreen.scale,-y*PoolScreen.scale,true);
 				System.out.println("touchUp " + x + " " + y);
 			}
 
