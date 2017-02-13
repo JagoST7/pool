@@ -44,13 +44,31 @@ public class Table extends Actor{
 		ChainShape shape = new ChainShape();
 
 		shape.createLoop(vertices);
-		grnd.createFixture(shape, 1);
+
+		FixtureDef fdef = new FixtureDef();
+		fdef.shape = shape;
+		fdef.density = 1;
+		fdef.restitution = 1f;
+		fdef.friction = 0f;
+
+		grnd.createFixture(fdef);
 
 		shape.dispose();
 	}
 
 	public Table(World world) {
 		this(world, 1.27f, 2.54f, 0.116f, 0.1285f); //шар 5,7cm (163gr)
+	}
+
+	public Table(World world, boolean debug) {
+		float w = 1.27f;
+		float h = 2.54f;
+
+		fullHeight = h + border + border;
+		fullWidth = w + border + border;
+
+		float[] vert1 = {border, border, border, h +border, w+border,h+border, w+border, border};
+		buildBorder(world, vert1);
 	}
 
 	public float getFullWidth() {

@@ -2,6 +2,8 @@ package ru.amfitel.jagost.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
@@ -18,9 +20,10 @@ public class PoolScreen extends BaseScreen{
 	Table table;
 	World world;
 	Box2DDebugRenderer b2dr;
+	Camera debugCam;
 	Array<Ball> balls;
 
-	private float scale = 1;
+	public static float scale = 1;
 
 	public PoolScreen(Game game){
 		super(game);
@@ -29,14 +32,15 @@ public class PoolScreen extends BaseScreen{
 
 		world = new World(new Vector2(0, 0f), true);
 		b2dr = new Box2DDebugRenderer();
+		debugCam = new OrthographicCamera();
 
-		table = new Table(world);
+		table = new Table(world, true);
 		stage.addActor(table);
 
 		balls = new Array<Ball>();
 
 		Ball ball = new Ball(world);
-		ball.setPosition(table.getFullWidth()/2, table.getFullWidth()/2);
+		ball.setTransform(table.getFullWidth()/2, table.getFullWidth()/2, 0);
 		balls.add(ball);
 		stage.addActor(ball);
 		ball.enableControl(true);
@@ -56,7 +60,7 @@ public class PoolScreen extends BaseScreen{
 				ball = new Ball(world);
 				balls.add(ball);
 				stage.addActor(ball);
-				ball.setPosition(sx+(i*rad*2), sy);
+				ball.setTransform(sx+(i*rad*2), sy, 0);
 			}
 			sx -= rad;
 			sy += dy;
@@ -71,26 +75,32 @@ public class PoolScreen extends BaseScreen{
 
 		super.render(delta);
 
-		b2dr.render(world, stage.getCamera().combined);
+		b2dr.render(world, debugCam.combined);
 	}
 
 	@Override
 	public void resize(int width, int height) {
+		super.resize(width, height);
+
 		float ws = width / table.getFullWidth();
 		float hs = height / table.getFullHeight();
 
 		scale = (ws<hs ? ws : hs)*0.9f;
 
+		for(Ball ball: balls) {
+			ball.resize(width, height);
+		}
+
 		float w = width/scale;
 		float h = height/scale;
 
-		stage.getCamera().viewportWidth = w;
-		stage.getCamera().viewportHeight = h;
+		debugCam.viewportWidth = w;
+		debugCam.viewportHeight = h;
 
-		stage.getCamera().position.x = w/2-w/20;
-		stage.getCamera().position.y = h/2-h/20;
+		debugCam.position.x = w/2;
+		debugCam.position.y = h/2;
 
-		stage.getCamera().update();
+		debugCam.update();
 	}
 
 
